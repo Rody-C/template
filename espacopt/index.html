@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espaço PT</title>
+<meta name="description" content="Serviços, preços, horário e marcação por WhatsApp.">
+<!-- DEMO: remover a linha abaixo na entrega final ao cliente, para o site aparecer no Google -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#14110f">
+<!--
+=====================================================================
+ COMO ADAPTAR A UM NOVO CLIENTE (10 a 30 minutos)
+ 1. Edita APENAS o bloco CONFIG no fim deste ficheiro.
+ 2. Escolhe o tema em CONFIG.theme: dourado | azul | verde | vermelho | claro
+ 3. Demo para o cliente ver:  deixa CONFIG.demo preenchido (mostra o aviso
+    "Proposta de exemplo") e mantém a meta noindex acima.
+ 4. Entrega final:  CONFIG.demo = null  e apaga a meta noindex.
+ 5. Se o cliente tiver uma aplicação (ex.: marcações por QR code),
+    preenche CONFIG.app.
+ 6. Fotos: coloca ficheiros em /img e preenche CONFIG.photos.
+=====================================================================
+-->
+<style>
+  :root{
+    --bg:#14110f; --bg2:#1d1916; --card:#231e1a; --text:#f3ede4; --muted:#b4a999;
+    --accent:#c9a45c; --accent-ink:#1a1408; --line:#35302a; --wa:#25d366;
+    --radius:14px; --max:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.15;margin:0 0 .5em}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  [hidden]{display:none!important}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+  section{padding:72px 0}
+  .alt{background:var(--bg2)}
+  .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-size:.78rem;font-weight:600;margin-bottom:10px}
+  h2{font-size:clamp(1.7rem,4vw,2.4rem)}
+  .lead{color:var(--muted);max-width:60ch}
+
+  .demo{background:var(--accent);color:var(--accent-ink);text-align:center;padding:9px 16px;font-size:.88rem;font-weight:600}
+
+  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+  .brand{font-family:Georgia,serif;font-size:1.25rem;font-weight:700;text-decoration:none;letter-spacing:.02em}
+  .brand span{color:var(--accent)}
+  nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+  nav a{text-decoration:none;color:var(--muted);font-size:.95rem}
+  nav a:hover{color:var(--text)}
+  .right{display:flex;align-items:center;gap:10px}
+  .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .lang button{background:none;border:0;color:var(--muted);padding:6px 11px;font-size:.8rem;font-weight:700;cursor:pointer}
+  .lang button.on{background:var(--accent);color:var(--accent-ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);padding:13px 24px;border-radius:999px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:1rem;transition:transform .15s,filter .15s}
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.95rem}
+
+  .hero{padding:96px 0 80px;background:
+    radial-gradient(900px 400px at 85% -10%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 60%),
+    linear-gradient(180deg,var(--bg2),var(--bg))}
+  .hero h1{font-size:clamp(2.3rem,7vw,4rem);max-width:14ch}
+  .hero p{color:var(--muted);font-size:1.12rem;max-width:52ch;margin:0 0 28px}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .badges{display:flex;gap:22px;flex-wrap:wrap;margin-top:38px;color:var(--muted);font-size:.92rem}
+  .badges b{color:var(--text);font-size:1.4rem;display:block;font-family:Georgia,serif}
+
+  .grid{display:grid;gap:14px}
+  .services{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:30px}
+  .service{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;justify-content:space-between;gap:14px}
+  .service h3{font-size:1.1rem;margin-bottom:4px}
+  .service p{margin:0;color:var(--muted);font-size:.92rem}
+  .price{font-family:Georgia,serif;color:var(--accent);font-size:1.3rem;white-space:nowrap}
+
+  .gallery{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:30px}
+  .shot{aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+  .shot img{width:100%;height:100%;object-fit:cover}
+
+  .appbox{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;margin-top:24px}
+  .appbox img{width:150px;height:150px;border-radius:10px;background:#fff;padding:8px}
+
+  .two{display:grid;gap:28px;grid-template-columns:1fr 1fr}
+  .two:has(#hoursPanel[hidden]){grid-template-columns:1fr}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .hours{list-style:none;padding:0;margin:0}
+  .hours li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .hours li:last-child{border:0}
+  .hours li.today{color:var(--accent);font-weight:700}
+  .status{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600;margin-bottom:14px}
+  .status.open{background:rgba(37,211,102,.16);color:#2f9e5a}
+  .status.closed{background:rgba(220,90,90,.16);color:#d46a6a}
+
+  .booking{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  form{display:grid;gap:14px;margin-top:24px;max-width:560px}
+  label{font-size:.88rem;color:var(--muted);display:grid;gap:6px}
+  input,select{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px 14px;font:inherit;width:100%}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  footer{padding:32px 0 96px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .wa-float{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--wa);color:#06260f;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.35);text-decoration:none}
+  .wa-float svg{width:28px;height:28px;fill:currentColor}
+
+  @media (max-width:760px){
+    nav ul{display:none;position:absolute;left:0;right:0;top:64px;background:var(--bg2);flex-direction:column;padding:16px 20px;gap:14px;border-bottom:1px solid var(--line)}
+    nav ul.open{display:flex}
+    .menu-btn{display:block}
+    .brand{font-size:1.05rem}
+    .two,.appbox{grid-template-columns:1fr}
+    .appbox img{width:130px;height:130px}
+    section{padding:56px 0}
+    .row{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="demo" id="demoBar" hidden></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#topo" id="brand"></a>
+    <div class="right">
+      <nav aria-label="Principal">
+        <ul id="menu">
+          <li><a href="#servicos" id="nServ"></a></li>
+          <li id="nAppLi" hidden><a href="#app" id="nApp"></a></li>
+          <li id="nGalLi"><a href="#galeria" id="nGal"></a></li>
+          <li><a href="#info" id="nInfo"></a></li>
+          <li><a href="#marcar" id="nBook"></a></li>
+        </ul>
+      </nav>
+      <div class="lang" id="lang" hidden>
+        <button type="button" data-l="pt">PT</button>
+        <button type="button" data-l="en">EN</button>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false"></button>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow" id="heroEyebrow"></div>
+      <h1 id="heroTitle"></h1>
+      <p id="heroText"></p>
+      <div class="cta">
+        <a class="btn" href="#marcar" id="ctaBook"></a>
+        <a class="btn ghost" id="callBtn" href="#"></a>
+      </div>
+      <div class="badges" id="badges"></div>
+    </div>
+  </section>
+
+  <section id="servicos">
+    <div class="wrap">
+      <div class="eyebrow" id="sEyebrow"></div>
+      <h2 id="sTitle"></h2>
+      <p class="lead" id="sLead"></p>
+      <div class="grid services" id="services"></div>
+    </div>
+  </section>
+
+  <section id="app" class="alt" hidden>
+    <div class="wrap">
+      <div class="eyebrow" id="aEyebrow"></div>
+      <h2 id="aTitle"></h2>
+      <div class="appbox">
+        <div>
+          <p class="lead" id="aText" style="margin-top:0"></p>
+          <a class="btn" id="aBtn" href="#" target="_blank" rel="noopener"></a>
+        </div>
+        <img id="aQr" alt="QR code" hidden>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="alt" hidden>
+    <div class="wrap">
+      <div class="eyebrow" id="gEyebrow"></div>
+      <h2 id="gTitle"></h2>
+      <div class="grid gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <section id="info">
+    <div class="wrap two">
+      <div class="panel" id="hoursPanel">
+        <div class="eyebrow" id="hEyebrow"></div>
+        <span class="status" id="status"></span>
+        <ul class="hours" id="hours"></ul>
+      </div>
+      <div class="panel">
+        <div class="eyebrow" id="wEyebrow"></div>
+        <p id="address" style="margin-top:0"></p>
+        <p><a id="mapLink" href="#" target="_blank" rel="noopener"></a></p>
+        <p id="phoneLine"></p>
+        <p id="socials"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="marcar" class="booking alt">
+    <div class="wrap">
+      <div class="eyebrow" id="bEyebrow"></div>
+      <h2 id="bTitle"></h2>
+      <p class="lead" id="bLead"></p>
+      <form id="bookForm">
+        <label><span id="lName"></span>
+          <input name="nome" required autocomplete="name">
+        </label>
+        <label><span id="lServ"></span>
+          <select name="servico" id="serviceSelect" required></select>
+        </label>
+        <div class="row">
+          <label><span id="lDay"></span>
+            <input type="date" name="dia" id="dayInput" required>
+          </label>
+          <label><span id="lTime"></span>
+            <input type="time" name="hora" required>
+          </label>
+        </div>
+        <button class="btn" type="submit" id="bSend"></button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div id="copy"></div>
+    <div id="creditLine"></div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5h22a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H13l-6 5v-5H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+</a>
+
+<script type="application/ld+json" id="ldjson"></script>
+
+<script>
+/* =====================================================================
+   CONFIG  –  é o ÚNICO bloco a editar para cada novo cliente
+   Textos podem ser uma string ou { pt: "...", en: "..." }
+   ===================================================================== */
+const CONFIG = {
+  "theme": "vermelho",
+  "defaultLang": "pt",
+  "languages": [
+    "pt"
+  ],
+  "demo": {
+    "by": "Rodrigo Coelho"
+  },
+  "kind": {
+    "pt": "Personal training",
+    "en": "Personal training"
+  },
+  "schemaType": "SportsActivityLocation",
+  "name": "Espaço PT",
+  "accentWord": "PT",
+  "city": "Oeiras",
+  "tagline": {
+    "pt": "Treino personalizado em Oeiras."
+  },
+  "intro": {
+    "pt": "Veja os serviços e marque a sua sessão por WhatsApp."
+  },
+  "phone": "+351 911 929 262",
+  "whatsapp": "351911929262",
+  "address": "Rua Ernesto Veiga de Oliveira 18, Loja BC, 2780-052 Oeiras",
+  "mapsQuery": "Rua Ernesto Veiga de Oliveira 18, Loja BC, 2780-052 Oeiras",
+  "instagram": "",
+  "facebook": "",
+  "stats": [],
+  "hours": {},
+  "services": [
+    {
+      "name": {
+        "pt": "Treino personalizado"
+      },
+      "desc": {
+        "pt": "Sessões acompanhadas e adaptadas a si"
+      },
+      "price": ""
+    },
+    {
+      "name": {
+        "pt": "Avaliação inicial"
+      },
+      "desc": {
+        "pt": "Primeira sessão para definir objetivos"
+      },
+      "price": ""
+    }
+  ],
+  "photos": [],
+  "photoAlt": {
+    "pt": "Trabalho"
+  },
+  "app": null,
+  "ui": {
+    "pt": {
+      "bookVisit": "Marcar sessão",
+      "bookTitle": "Marca a tua sessão",
+      "hello": "Olá! Gostava de marcar uma sessão no {name}."
+    }
+  },
+  "credit": {
+    "name": "Rodrigo Coelho",
+    "url": "https://rody-c.github.io"
+  }
+};
+
+/* =====================================================================
+   Código do template (não precisas de mexer daqui para baixo)
+   ===================================================================== */
+const THEMES = {
+  dourado:  { "--bg":"#14110f","--bg2":"#1d1916","--card":"#231e1a","--text":"#f3ede4","--muted":"#b4a999","--accent":"#c9a45c","--accent-ink":"#1a1408","--line":"#35302a" },
+  azul:     { "--bg":"#0f141a","--bg2":"#151c24","--card":"#1a232d","--text":"#eaf1f8","--muted":"#9fb0c1","--accent":"#5aa9e6","--accent-ink":"#06192b","--line":"#2a3745" },
+  verde:    { "--bg":"#0f1512","--bg2":"#151d19","--card":"#1a2420","--text":"#e9f3ee","--muted":"#9db3a8","--accent":"#6bbf8a","--accent-ink":"#07200f","--line":"#2a3a33" },
+  vermelho: { "--bg":"#17100f","--bg2":"#1f1614","--card":"#271c19","--text":"#f6ebe8","--muted":"#bfa9a4","--accent":"#d9534f","--accent-ink":"#2a0807","--line":"#3d2b27" },
+  claro:    { "--bg":"#faf8f4","--bg2":"#f1ede5","--card":"#ffffff","--text":"#1d1b18","--muted":"#6a645a","--accent":"#8a6a2f","--accent-ink":"#ffffff","--line":"#e2dbcd" },
+  rosa:     { "--bg":"#fff7f8","--bg2":"#fdecef","--card":"#ffffff","--text":"#2a1c20","--muted":"#7a6168","--accent":"#c2577a","--accent-ink":"#ffffff","--line":"#f1d9df" },
+  lilas:    { "--bg":"#faf7fc","--bg2":"#f1eaf7","--card":"#ffffff","--text":"#241c2b","--muted":"#6d6279","--accent":"#8a5cb8","--accent-ink":"#ffffff","--line":"#e5d9ee" }
+};
+const UI = {
+  pt: { services:"Serviços", gallery:"Galeria", hours:"Horário", book:"Marcar", bookVisit:"Marcar visita", call:"Ligar agora",
+        whatWeDo:"O que fazemos", servicesLead:"Preços claros, sem surpresas. Marca por WhatsApp em menos de um minuto.",
+        ourWork:"O nosso trabalho", where:"Onde estamos", openMaps:"Abrir no Google Maps →", phone:"Telefone / WhatsApp",
+        bookEyebrow:"Marcações", bookTitle:"Marca a tua visita", bookLead:"Preenche os campos e abrimos o WhatsApp com a mensagem pronta. Confirmamos a hora contigo.",
+        lName:"O teu nome", lServ:"Serviço", lDay:"Dia preferido", lTime:"Hora preferida", send:"Pedir marcação por WhatsApp",
+        open:"Aberto agora · fecha às", closed:"Fechado neste momento", closedDay:"Fechado", app:"Aplicação",
+        siteBy:"Site criado por", rights:"Todos os direitos reservados.", menu:"Menu", waLabel:"Falar no WhatsApp",
+        demo:"Proposta de exemplo preparada por {by}. Não é o site oficial.",
+        hello:"Olá! Gostava de marcar uma visita na {name}.",
+        msg:"Olá! Chamo-me {n}. Gostava de marcar: {s}, no dia {d} por volta das {t}. Obrigado!",
+        days:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"] },
+  en: { services:"Services", gallery:"Gallery", hours:"Hours", book:"Book", bookVisit:"Book a visit", call:"Call now",
+        whatWeDo:"What we do", servicesLead:"Clear prices, no surprises. Book on WhatsApp in under a minute.",
+        ourWork:"Our work", where:"Find us", openMaps:"Open in Google Maps →", phone:"Phone / WhatsApp",
+        bookEyebrow:"Bookings", bookTitle:"Book your visit", bookLead:"Fill in the fields and we open WhatsApp with the message ready. We confirm the time with you.",
+        lName:"Your name", lServ:"Service", lDay:"Preferred day", lTime:"Preferred time", send:"Request booking on WhatsApp",
+        open:"Open now · closes at", closed:"Closed right now", closedDay:"Closed", app:"App",
+        siteBy:"Website by", rights:"All rights reserved.", menu:"Menu", waLabel:"Chat on WhatsApp",
+        demo:"Sample proposal prepared by {by}. This is not the official website.",
+        hello:"Hello! I would like to book a visit at {name}.",
+        msg:"Hello! My name is {n}. I would like to book: {s}, on {d} around {t}. Thank you!",
+        days:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] }
+};
+
+["pt","en"].forEach(l => Object.assign(UI[l], (CONFIG.ui && CONFIG.ui[l]) || {}));
+const $ = id => document.getElementById(id);
+const C = CONFIG;
+const available = (C.languages && C.languages.length) ? C.languages : ["pt"];
+let lang = available.includes(C.defaultLang) ? C.defaultLang : available[0];
+try { const s = localStorage.getItem("lang"); if (s && available.includes(s)) lang = s; } catch(e) {}
+
+const L = v => (v && typeof v === "object") ? (v[lang] ?? v.pt ?? "") : (v ?? "");
+const t = k => UI[lang][k];
+const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
+const wa = text => `https://wa.me/${C.whatsapp}?text=${encodeURIComponent(text)}`;
+const tel = "tel:" + C.phone.replace(/\s/g, "");
+const ORDER = [1,2,3,4,5,6,0];
+// um dia pode ser null, ["09:00","19:00"] ou várias faixas [["10:00","14:00"],["15:00","20:00"]]
+const slots = h => !h ? [] : (typeof h[0] === "string" ? [h] : h);
+const now = new Date();
+const today = now.getDay();
+
+// tema
+(function(){
+  const th = THEMES[C.theme] || THEMES.dourado;
+  Object.entries(th).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
+  const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = th["--bg"];
+})();
+
+function render() {
+  document.documentElement.lang = lang === "pt" ? "pt-PT" : "en";
+  document.title = `${C.name} | ${L(C.kind)} ${C.city}`;
+
+  // demo
+  const bar = $("demoBar");
+  if (C.demo) { bar.hidden = false; bar.textContent = fill(t("demo"), { by: C.demo.by }); } else { bar.hidden = true; }
+
+  // marca + menu
+  $("brand").innerHTML = (C.accentWord && C.name.includes(C.accentWord))
+    ? C.name.replace(C.accentWord, `<span>${C.accentWord}</span>`) : C.name;
+  $("nServ").textContent = t("services"); $("nGal").textContent = t("gallery");
+  $("nInfo").textContent = t("hours");   $("nBook").textContent = t("book");
+  $("menuBtn").textContent = t("menu");
+  $("waFloat").setAttribute("aria-label", t("waLabel"));
+
+  // idioma
+  const lg = $("lang"); lg.hidden = available.length < 2;
+  lg.querySelectorAll("button").forEach(b => {
+    b.hidden = !available.includes(b.dataset.l);
+    b.classList.toggle("on", b.dataset.l === lang);
+  });
+
+  // hero
+  $("heroEyebrow").textContent = `${L(C.kind)} · ${C.city}`;
+  $("heroTitle").textContent = L(C.tagline);
+  $("heroText").textContent = L(C.intro);
+  $("ctaBook").textContent = t("bookVisit");
+  $("callBtn").textContent = t("call"); $("callBtn").href = tel;
+  $("badges").innerHTML = (C.stats || []).map(([n, l]) => `<div><b>${n}</b>${L(l)}</div>`).join("");
+
+  // serviços
+  $("sEyebrow").textContent = t("services"); $("sTitle").textContent = t("whatWeDo"); $("sLead").textContent = t("servicesLead");
+  $("services").innerHTML = C.services.map(s => `
+    <div class="service"><div><h3>${L(s.name)}</h3><p>${L(s.desc)}</p></div>${s.price ? `<div class="price">${s.price}</div>` : ""}</div>`).join("");
+
+  // app / QR
+  const hasApp = !!C.app;
+  $("app").hidden = !hasApp; $("nAppLi").hidden = !hasApp;
+  if (hasApp) {
+    $("nApp").textContent = t("app"); $("aEyebrow").textContent = t("app");
+    $("aTitle").textContent = L(C.app.title); $("aText").textContent = L(C.app.text);
+    $("aBtn").textContent = L(C.app.button); $("aBtn").href = C.app.url;
+    $("aQr").hidden = !C.app.qr; if (C.app.qr) $("aQr").src = C.app.qr;
+  }
+
+  // galeria (só se houver fotos)
+  const hasPhotos = (C.photos || []).length > 0;
+  $("galeria").hidden = !hasPhotos; $("nGalLi").hidden = !hasPhotos;
+  if (hasPhotos) {
+    $("gEyebrow").textContent = t("gallery"); $("gTitle").textContent = t("ourWork");
+    $("gallery").innerHTML = C.photos.map((p, i) => `<div class="shot"><img src="${p}" alt="${L(C.photoAlt)} ${i+1}" loading="lazy"></div>`).join("");
+  }
+
+  // horário
+  const hasHours = !!C.hours && Object.keys(C.hours).length > 0;
+  $("hoursPanel").hidden = !hasHours;
+  $("hEyebrow").textContent = t("hours");
+  $("hours").innerHTML = ORDER.map(d => {
+    const s = slots(C.hours[d]);
+    return `<li class="${d === today ? "today" : ""}"><span>${t("days")[d]}</span><span>${s.length ? s.map(x => x[0] + " – " + x[1]).join(", ") : t("closedDay")}</span></li>`;
+  }).join("");
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const toM = s => { const [a, b] = s.split(":").map(Number); return a * 60 + b; };
+  const cur = slots(C.hours[today]).find(x => mins >= toM(x[0]) && mins < toM(x[1]));
+  const st = $("status");
+  st.textContent = cur ? `${t("open")} ${cur[1]}` : t("closed");
+  st.className = "status " + (cur ? "open" : "closed");
+
+  // contactos
+  $("wEyebrow").textContent = t("where");
+  $("address").textContent = C.address;
+  $("mapLink").textContent = t("openMaps");
+  $("mapLink").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.mapsQuery || C.address);
+  $("phoneLine").innerHTML = `${t("phone")}: <a href="${tel}">${C.phone}</a>`;
+  $("socials").innerHTML = [
+    C.instagram && `<a href="${C.instagram}" target="_blank" rel="noopener">Instagram</a>`,
+    C.facebook && `<a href="${C.facebook}" target="_blank" rel="noopener">Facebook</a>`
+  ].filter(Boolean).join(" · ");
+  $("waFloat").href = wa(fill(t("hello"), { name: C.name }));
+
+  // marcação (mantém o que o utilizador já escolheu)
+  $("bEyebrow").textContent = t("bookEyebrow"); $("bTitle").textContent = t("bookTitle"); $("bLead").textContent = t("bookLead");
+  $("lName").textContent = t("lName"); $("lServ").textContent = t("lServ");
+  $("lDay").textContent = t("lDay"); $("lTime").textContent = t("lTime"); $("bSend").textContent = t("send");
+  const sel = $("serviceSelect"); const keep = sel.selectedIndex;
+  sel.innerHTML = C.services.map(s => `<option>${L(s.name)}${s.price ? " (" + s.price + ")" : ""}</option>`).join("");
+  if (keep > 0) sel.selectedIndex = keep;
+
+  // rodapé
+  $("copy").textContent = `© ${now.getFullYear()} ${C.name}. ${t("rights")}`;
+  $("creditLine").innerHTML = C.credit && C.credit.name
+    ? `${t("siteBy")} ${C.credit.url ? `<a href="${C.credit.url}" target="_blank" rel="noopener">${C.credit.name}</a>` : C.credit.name}` : "";
+}
+
+// SEO local
+(function(){
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const ob = ORDER.flatMap(d => slots(C.hours[d]).map(x => ({ "@type":"OpeningHoursSpecification", dayOfWeek: days[d], opens: x[0], closes: x[1] })));
+  $("ldjson").textContent = JSON.stringify({
+    "@context":"https://schema.org", "@type": C.schemaType || "LocalBusiness", name: C.name, telephone: C.phone,
+    address: { "@type":"PostalAddress", streetAddress: C.address, addressLocality: C.city, addressCountry:"PT" },
+    openingHoursSpecification: ob, url: location.href
+  });
+})();
+
+// eventos
+$("dayInput").min = now.toISOString().slice(0, 10);
+$("bookForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const [y, m, d] = f.get("dia").split("-");
+  const date = lang === "pt" ? `${d}/${m}/${y}` : `${y}-${m}-${d}`;
+  window.open(wa(fill(t("msg"), { n: f.get("nome"), s: f.get("servico"), d: date, t: f.get("hora") })), "_blank", "noopener");
+});
+$("menuBtn").addEventListener("click", () => {
+  const open = $("menu").classList.toggle("open");
+  $("menuBtn").setAttribute("aria-expanded", open);
+});
+$("menu").addEventListener("click", e => { if (e.target.tagName === "A") $("menu").classList.remove("open"); });
+$("lang").addEventListener("click", e => {
+  const l = e.target.dataset && e.target.dataset.l;
+  if (!l || l === lang) return;
+  lang = l; try { localStorage.setItem("lang", l); } catch(err) {}
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
